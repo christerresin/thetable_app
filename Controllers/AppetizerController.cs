@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using TheTableApi.Models;
+using TheTableApi.Services.AppetizerService;
 
 namespace TheTableApi.Controllers
 {
@@ -11,27 +12,29 @@ namespace TheTableApi.Controllers
     [Route("api/[controller]")]
     public class AppetizerController : ControllerBase
     {
-        private static List<Appetizer> appetizers = new List<Appetizer>{
-            new Appetizer{Id=0, Title="Bacon Strips with Honey"},
-            new Appetizer{Id=1, Title="Cheese with crackers"}
-        };
+    private readonly IAppetizerService appetizerService;
 
-        [HttpGet]
+    public AppetizerController(IAppetizerService appetizerService)
+    {
+      this.appetizerService = appetizerService;
+    }
+
+    [HttpGet]
         public ActionResult<List<Appetizer>> GetAllAppetizers()
         {
-            return Ok(appetizers);
+            return Ok(appetizerService.GetAllAppetizers());
         }
 
         [HttpGet("{id}")]
         public ActionResult<Appetizer> GetAppetizerById(int id)
         {
-            return Ok(appetizers.FirstOrDefault(appetizer => appetizer.Id == id));
+            return Ok(appetizerService.GetAppetizerById(id));
         }
 
         [HttpPost]
         public ActionResult<Appetizer> AddNewAppetizer(Appetizer appetizer)
         {
-          return Ok(appetizer);
+          return Ok(appetizerService.AddNewAppetizer(appetizer));
         }
 
 

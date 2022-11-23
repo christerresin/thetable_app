@@ -8,8 +8,8 @@ namespace TheTableApi.Services.AppetizerService
 {
     public interface IAppetizerService
     {
-        List<Appetizer> GetAllAppetizers();
-        Appetizer GetAppetizerById(int id);
-        Appetizer AddNewAppetizer(Appetizer appetizer);
+        Task<List<Appetizer>> GetAllAppetizers();
+        Task<Appetizer> GetAppetizerById(int id);
+        Task<Appetizer> AddNewAppetizer(Appetizer appetizer);
     }
 }

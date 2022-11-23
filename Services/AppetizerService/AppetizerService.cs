@@ -12,17 +12,17 @@ namespace TheTableApi.Services.AppetizerService
             new Appetizer{Id=0, Title="Bacon Strips with Honey"},
             new Appetizer{Id=1, Title="Cheese with crackers"}
         };
-    public Appetizer AddNewAppetizer(Appetizer appetizer)
+    public async Task<Appetizer> AddNewAppetizer(Appetizer appetizer)
     {
         return appetizer;
     }
 
-    public List<Appetizer> GetAllAppetizers()
+    public async Task<List<Appetizer>> GetAllAppetizers()
     {
         return appetizers;
     }
 
-    public Appetizer GetAppetizerById(int id)
+    public async Task<Appetizer> GetAppetizerById(int id)
     {
         return appetizers.FirstOrDefault(appetizer => appetizer.Id == id);
     }

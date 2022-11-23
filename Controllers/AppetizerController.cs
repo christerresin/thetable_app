@@ -19,7 +19,19 @@ namespace TheTableApi.Controllers
         [HttpGet]
         public ActionResult<List<Appetizer>> GetAllAppetizers()
         {
-            return appetizers;
+            return Ok(appetizers);
+        }
+
+        [HttpGet("{id}")]
+        public ActionResult<Appetizer> GetAppetizerById(int id)
+        {
+            return Ok(appetizers.FirstOrDefault(appetizer => appetizer.Id == id));
+        }
+
+        [HttpPost]
+        public ActionResult<Appetizer> AddNewAppetizer(Appetizer appetizer)
+        {
+          return Ok(appetizer);
         }
 
 

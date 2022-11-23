@@ -12,19 +12,24 @@ namespace TheTableApi.Services.AppetizerService
             new Appetizer{Id=0, Title="Bacon Strips with Honey"},
             new Appetizer{Id=1, Title="Cheese with crackers"}
         };
-    public async Task<Appetizer> AddNewAppetizer(Appetizer appetizer)
+    public async Task<ServiceResponse<Appetizer>> AddNewAppetizer(Appetizer appetizer)
     {
-        return appetizer;
+        var serviceResponse = new ServiceResponse<Appetizer>{Data = appetizer};
+        return serviceResponse;
     }
 
-    public async Task<List<Appetizer>> GetAllAppetizers()
+    public async Task<ServiceResponse<List<Appetizer>>> GetAllAppetizers()
     {
-        return appetizers;
+        var serviceResponse = new ServiceResponse<List<Appetizer>>{Data = appetizers};
+        return serviceResponse;
     }
 
-    public async Task<Appetizer> GetAppetizerById(int id)
+    public async Task<ServiceResponse<Appetizer>> GetAppetizerById(int id)
     {
-        return appetizers.FirstOrDefault(appetizer => appetizer.Id == id);
+        var serviceResponse = new ServiceResponse<Appetizer>();
+        var appetizer = appetizers.FirstOrDefault(appetizer => appetizer.Id == id);
+        serviceResponse.Data = appetizer;
+        return serviceResponse;
     }
   }
 }

@@ -20,19 +20,20 @@ namespace TheTableApi.Controllers
     }
 
     [HttpGet]
-        public async Task<ActionResult<List<Appetizer>>> GetAllAppetizers()
+        public async Task<ActionResult<ServiceResponse<List<Appetizer>>>> GetAllAppetizers()
         {
+
             return Ok(await appetizerService.GetAllAppetizers());
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Appetizer>> GetAppetizerById(int id)
+        public async Task<ActionResult<ServiceResponse<Appetizer>>> GetAppetizerById(int id)
         {
             return Ok(await appetizerService.GetAppetizerById(id));
         }
 
         [HttpPost]
-        public async Task<ActionResult<Appetizer>> AddNewAppetizer(Appetizer appetizer)
+        public async Task<ActionResult<ServiceResponse<Appetizer>>> AddNewAppetizer(Appetizer appetizer)
         {
           return Ok(await appetizerService.AddNewAppetizer(appetizer));
         }

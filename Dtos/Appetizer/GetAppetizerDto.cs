@@ -4,9 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using TheTableApi.Models;
 
-namespace TheTableApi.Models
+namespace TheTableApi.Dtos.Appetizer
 {
-  public class Appetizer
+  public class GetAppetizerDto
   {
     public int Id { get; set; }
     public string? Title { get; set; }

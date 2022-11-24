@@ -2,34 +2,45 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
+using TheTableApi.Dtos.Appetizer;
 using TheTableApi.Models;
 
 namespace TheTableApi.Services.AppetizerService
 {
   public class AppetizerService : IAppetizerService
   {
-            private static List<Appetizer> appetizers = new List<Appetizer>{
+    private readonly IMapper mapper;
+    public AppetizerService(IMapper mapper)
+    {
+      this.mapper = mapper;
+
+    }
+    private static List<Appetizer> appetizers = new List<Appetizer>{
             new Appetizer{Id=0, Title="Bacon Strips with Honey"},
             new Appetizer{Id=1, Title="Cheese with crackers"}
         };
-    public async Task<ServiceResponse<Appetizer>> AddNewAppetizer(Appetizer appetizer)
+    public async Task<ServiceResponse<GetAppetizerDto>> AddNewAppetizer(AddAppetizerDto newAppetizer)
     {
-        var serviceResponse = new ServiceResponse<Appetizer>{Data = appetizer};
-        return serviceResponse;
+      Appetizer appetizer = mapper.Map<Appetizer>(newAppetizer);
+      appetizer.Id = appetizers.Max(a => a.Id) + 1;
+      appetizers.Add(appetizer);
+      var serviceResponse = new ServiceResponse<GetAppetizerDto> { Data = mapper.Map<GetAppetizerDto>(newAppetizer) };
+      return serviceResponse;
     }
 
-    public async Task<ServiceResponse<List<Appetizer>>> GetAllAppetizers()
+    public async Task<ServiceResponse<List<GetAppetizerDto>>> GetAllAppetizers()
     {
-        var serviceResponse = new ServiceResponse<List<Appetizer>>{Data = appetizers};
-        return serviceResponse;
+      var serviceResponse = new ServiceResponse<List<GetAppetizerDto>> { Data = appetizers.Select(a => mapper.Map<GetAppetizerDto>(a)).ToList() };
+      return serviceResponse;
     }
 
-    public async Task<ServiceResponse<Appetizer>> GetAppetizerById(int id)
+    public async Task<ServiceResponse<GetAppetizerDto>> GetAppetizerById(int id)
     {
-        var serviceResponse = new ServiceResponse<Appetizer>();
-        var appetizer = appetizers.FirstOrDefault(appetizer => appetizer.Id == id);
-        serviceResponse.Data = appetizer;
-        return serviceResponse;
+      var serviceResponse = new ServiceResponse<GetAppetizerDto>();
+      var appetizer = appetizers.FirstOrDefault(appetizer => appetizer.Id == id);
+      serviceResponse.Data = mapper.Map<GetAppetizerDto>(appetizer);
+      return serviceResponse;
     }
   }
 }

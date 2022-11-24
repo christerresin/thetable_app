@@ -4,11 +4,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using TheTableApi.Models;
 
-namespace TheTableApi.Models
+namespace TheTableApi.Dtos.Appetizer
 {
-  public class Appetizer
+  public class AddAppetizerDto
   {
-    public int Id { get; set; }
     public string? Title { get; set; }
     public string Description { get; set; } = "No description added for this meal";
     public string? VideoUrl { get; set; } = null;

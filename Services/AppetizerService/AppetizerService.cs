@@ -69,5 +69,25 @@ namespace TheTableApi.Services.AppetizerService
       return serviceResponse;
 
     }
+
+    public async Task<ServiceResponse<GetAppetizerDto>> DeleteAppetizer(int id)
+    {
+      var serviceResponse = new ServiceResponse<GetAppetizerDto>();
+
+      try
+      {
+        Appetizer appetizer = appetizers.FirstOrDefault(a => a.Id == id);
+        appetizers.Remove(appetizer);
+
+        serviceResponse.Data = mapper.Map<GetAppetizerDto>(appetizer);
+
+      }
+      catch (Exception ex)
+      {
+        serviceResponse.Success = false;
+        serviceResponse.Message = ex.Message;
+      }
+      return serviceResponse;
+    }
   }
 }

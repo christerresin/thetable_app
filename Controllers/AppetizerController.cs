@@ -50,6 +50,17 @@ namespace TheTableApi.Controllers
       return Ok(serviceResponse);
     }
 
+    [HttpDelete]
+    public async Task<ActionResult<ServiceResponse<GetAppetizerDto>>> DeleteAppetizer(int id)
+    {
+      var serviceResponse = await appetizerService.DeleteAppetizer(id);
+      if (serviceResponse.Data == null)
+      {
+        return NotFound(serviceResponse);
+      }
+      return Ok(serviceResponse);
+    }
+
 
   }
 }

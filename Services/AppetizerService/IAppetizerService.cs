@@ -12,5 +12,7 @@ namespace TheTableApi.Services.AppetizerService
     Task<ServiceResponse<List<GetAppetizerDto>>> GetAllAppetizers();
     Task<ServiceResponse<GetAppetizerDto>> GetAppetizerById(int id);
     Task<ServiceResponse<GetAppetizerDto>> AddNewAppetizer(AddAppetizerDto appetizer);
+
+    Task<ServiceResponse<GetAppetizerDto>> UpdateAppetizer(UpdateAppetizerDto updatedAppetizer);
   }
 }

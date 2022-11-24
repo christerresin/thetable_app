@@ -42,5 +42,32 @@ namespace TheTableApi.Services.AppetizerService
       serviceResponse.Data = mapper.Map<GetAppetizerDto>(appetizer);
       return serviceResponse;
     }
+
+    public async Task<ServiceResponse<GetAppetizerDto>> UpdateAppetizer(UpdateAppetizerDto updatedAppetizer)
+    {
+      var serviceResponse = new ServiceResponse<GetAppetizerDto>();
+
+      try
+      {
+        Appetizer appetizer = appetizers.FirstOrDefault(a => a.Id == updatedAppetizer.Id);
+
+        appetizer.Title = updatedAppetizer.Title;
+        appetizer.Description = updatedAppetizer.Description;
+        appetizer.ImageUrl = updatedAppetizer.ImageUrl;
+        appetizer.VideoUrl = updatedAppetizer.VideoUrl;
+        appetizer.Type = updatedAppetizer.Type;
+        appetizer.LastEdited = DateTime.Now;
+
+        serviceResponse.Data = mapper.Map<GetAppetizerDto>(appetizer);
+
+      }
+      catch (Exception ex)
+      {
+        serviceResponse.Success = false;
+        serviceResponse.Message = ex.Message;
+      }
+      return serviceResponse;
+
+    }
   }
 }

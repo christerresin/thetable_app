@@ -39,6 +39,17 @@ namespace TheTableApi.Controllers
       return Ok(await appetizerService.AddNewAppetizer(newAppetizer));
     }
 
+    [HttpPut]
+    public async Task<ActionResult<ServiceResponse<GetAppetizerDto>>> UpdateAppetizer(UpdateAppetizerDto updatedAppetizer)
+    {
+      var serviceResponse = await appetizerService.UpdateAppetizer(updatedAppetizer);
+      if (serviceResponse.Data == null)
+      {
+        return NotFound(serviceResponse);
+      }
+      return Ok(serviceResponse);
+    }
+
 
   }
 }

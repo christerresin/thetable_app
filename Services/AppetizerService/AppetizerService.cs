@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.EntityFrameworkCore;
+using TheTableApi.Data;
 using TheTableApi.Dtos.Appetizer;
 using TheTableApi.Models;
 
@@ -11,10 +13,12 @@ namespace TheTableApi.Services.AppetizerService
   public class AppetizerService : IAppetizerService
   {
     private readonly IMapper mapper;
-    public AppetizerService(IMapper mapper)
+    private readonly DataContext context;
+
+    public AppetizerService(IMapper mapper, DataContext context)
     {
       this.mapper = mapper;
-
+      this.context = context;
     }
     private static List<Appetizer> appetizers = new List<Appetizer>{
             new Appetizer{Id=0, Title="Bacon Strips with Honey"},
@@ -31,7 +35,9 @@ namespace TheTableApi.Services.AppetizerService
 
     public async Task<ServiceResponse<List<GetAppetizerDto>>> GetAllAppetizers()
     {
-      var serviceResponse = new ServiceResponse<List<GetAppetizerDto>> { Data = appetizers.Select(a => mapper.Map<GetAppetizerDto>(a)).ToList() };
+      var serviceResponse = new ServiceResponse<List<GetAppetizerDto>>();
+      var dbAppetizers = await context.Appetizers.ToListAsync();
+      serviceResponse.Data = dbAppetizers.Select(a => mapper.Map<GetAppetizerDto>(a)).ToList();
       return serviceResponse;
     }
 

@@ -26,10 +26,12 @@ namespace TheTableApi.Services.AppetizerService
         };
     public async Task<ServiceResponse<GetAppetizerDto>> AddNewAppetizer(AddAppetizerDto newAppetizer)
     {
+      var serviceResponse = new ServiceResponse<GetAppetizerDto>();
       Appetizer appetizer = mapper.Map<Appetizer>(newAppetizer);
-      appetizer.Id = appetizers.Max(a => a.Id) + 1;
-      appetizers.Add(appetizer);
-      var serviceResponse = new ServiceResponse<GetAppetizerDto> { Data = mapper.Map<GetAppetizerDto>(newAppetizer) };
+      context.Appetizers.Add(appetizer);
+      await context.SaveChangesAsync();
+
+      serviceResponse.Data = mapper.Map<GetAppetizerDto>(appetizer);
       return serviceResponse;
     }
 
@@ -55,7 +57,7 @@ namespace TheTableApi.Services.AppetizerService
 
       try
       {
-        Appetizer appetizer = appetizers.FirstOrDefault(a => a.Id == updatedAppetizer.Id);
+        var appetizer = await context.Appetizers.FirstOrDefaultAsync(a => a.Id == updatedAppetizer.Id);
 
         appetizer.Title = updatedAppetizer.Title;
         appetizer.Description = updatedAppetizer.Description;
@@ -63,6 +65,8 @@ namespace TheTableApi.Services.AppetizerService
         appetizer.VideoUrl = updatedAppetizer.VideoUrl;
         appetizer.Type = updatedAppetizer.Type;
         appetizer.LastEdited = DateTime.Now;
+
+        context.SaveChangesAsync();
 
         serviceResponse.Data = mapper.Map<GetAppetizerDto>(appetizer);
 

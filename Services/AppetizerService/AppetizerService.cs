@@ -20,10 +20,6 @@ namespace TheTableApi.Services.AppetizerService
       this.mapper = mapper;
       this.context = context;
     }
-    private static List<Appetizer> appetizers = new List<Appetizer>{
-            new Appetizer{Id=0, Title="Bacon Strips with Honey"},
-            new Appetizer{Id=1, Title="Cheese with crackers"}
-        };
     public async Task<ServiceResponse<GetAppetizerDto>> AddNewAppetizer(AddAppetizerDto newAppetizer)
     {
       var serviceResponse = new ServiceResponse<GetAppetizerDto>();
@@ -46,7 +42,7 @@ namespace TheTableApi.Services.AppetizerService
     public async Task<ServiceResponse<GetAppetizerDto>> GetAppetizerById(int id)
     {
       var serviceResponse = new ServiceResponse<GetAppetizerDto>();
-      var appetizer = appetizers.FirstOrDefault(appetizer => appetizer.Id == id);
+      var appetizer = await context.Appetizers.FirstOrDefaultAsync(appetizer => appetizer.Id == id);
       serviceResponse.Data = mapper.Map<GetAppetizerDto>(appetizer);
       return serviceResponse;
     }
@@ -86,8 +82,9 @@ namespace TheTableApi.Services.AppetizerService
 
       try
       {
-        Appetizer appetizer = appetizers.FirstOrDefault(a => a.Id == id);
-        appetizers.Remove(appetizer);
+        Appetizer appetizer = await context.Appetizers.FirstAsync(a => a.Id == id);
+        context.Appetizers.Remove(appetizer);
+        await context.SaveChangesAsync();
 
         serviceResponse.Data = mapper.Map<GetAppetizerDto>(appetizer);
 

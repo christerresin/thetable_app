@@ -6,7 +6,9 @@ using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using TheTableApi.Data;
 using TheTableApi.Dtos.Appetizer;
+using TheTableApi.Interfaces;
 using TheTableApi.Models;
+using TheTableApi.Repositories;
 
 namespace TheTableApi.Services.AppetizerService
 {
@@ -14,18 +16,21 @@ namespace TheTableApi.Services.AppetizerService
   {
     private readonly IMapper mapper;
     private readonly DataContext context;
+    private readonly IAppetizerRepository appetizerRepository;
 
-    public AppetizerService(IMapper mapper, DataContext context)
+    public AppetizerService(IMapper mapper, DataContext context, IAppetizerRepository appetizerRepository)
     {
       this.mapper = mapper;
       this.context = context;
+      this.appetizerRepository = appetizerRepository;
     }
     public async Task<ServiceResponse<GetAppetizerDto>> AddNewAppetizer(AddAppetizerDto newAppetizer)
     {
       var serviceResponse = new ServiceResponse<GetAppetizerDto>();
       Appetizer appetizer = mapper.Map<Appetizer>(newAppetizer);
-      context.Appetizers.Add(appetizer);
-      await context.SaveChangesAsync();
+      // context.Appetizers.Add(appetizer);
+      // await context.SaveChangesAsync();
+      await appetizerRepository.AddNewAppetizer(appetizer);
 
       serviceResponse.Data = mapper.Map<GetAppetizerDto>(appetizer);
       return serviceResponse;

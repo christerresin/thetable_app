@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using TheTableApi.Data;
+using TheTableApi.Interfaces;
+using TheTableApi.Repositories;
 using TheTableApi.Services.AppetizerService;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,6 +14,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
 builder.Services.AddScoped<IAppetizerService, AppetizerService>();
+builder.Services.AddScoped<IAppetizerRepository, AppetizerRepository>();
 
 var app = builder.Build();
 

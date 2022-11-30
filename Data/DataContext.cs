@@ -14,5 +14,6 @@ namespace TheTableApi.Data
 
     }
     public DbSet<Appetizer> Appetizers { get; set; }
+    public DbSet<Meal> Meals { get; set; }
   }
 }

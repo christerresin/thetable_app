@@ -41,7 +41,7 @@ namespace TheTableApi.Services.MainCourseService
     public async Task<ServiceResponse<List<Meal>>> GetAllMainCourses()
     {
       var serviceResponse = new ServiceResponse<List<Meal>>();
-      var dbMainCourses = await mealRepository.GetAllMeals();
+      var dbMainCourses = await mealRepository.GetAllMeals(MealType.MainCourse);
       serviceResponse.Data = dbMainCourses;
       return serviceResponse;
     }

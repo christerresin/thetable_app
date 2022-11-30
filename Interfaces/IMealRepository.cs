@@ -10,7 +10,7 @@ namespace TheTableApi.Interfaces
   public interface IMealRepository
   {
     Task<Meal> AddNewMeal(Meal newMainCourse);
-    Task<List<Meal>> GetAllMeals();
+    Task<List<Meal>> GetAllMeals(MealType mealType);
 
     Task<Meal> GetMealById(int id);
 

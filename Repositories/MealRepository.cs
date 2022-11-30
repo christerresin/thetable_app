@@ -26,9 +26,9 @@ namespace TheTableApi.Repositories
       return newMainCourse;
     }
 
-    public async Task<List<Meal>> GetAllMeals()
+    public async Task<List<Meal>> GetAllMeals(MealType mealType)
     {
-      return await context.Meals.ToListAsync();
+      return await context.Meals.Where(meal => meal.Type == mealType).ToListAsync();
     }
 
     public async Task<Meal> GetMealById(int id)

@@ -30,5 +30,10 @@ namespace TheTableApi.Repositories
     {
       return await context.Meals.ToListAsync();
     }
+
+    public async Task<Meal> GetMealById(int id)
+    {
+      return await context.Meals.FirstAsync(m => m.Id == id);
+    }
   }
 }

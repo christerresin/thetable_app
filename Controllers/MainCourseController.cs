@@ -24,6 +24,18 @@ namespace TheTableApi.Controllers
       return Ok(await mainCourseService.GetAllMainCourses());
     }
 
+    [HttpGet("/{id}")]
+    public async Task<ActionResult<ServiceResponse<GetMealDto>>> GetMainCourseById(int id)
+    {
+
+      var serviceResponse = await mainCourseService.getMainCourseById(id);
+      if (serviceResponse.Data == null)
+      {
+        return NotFound(serviceResponse);
+      }
+      return Ok(serviceResponse);
+    }
+
     [HttpPost]
     public async Task<ActionResult<ServiceResponse<GetMealDto>>> AddNewMainCourse(AddMealDto newMainCourse)
     {

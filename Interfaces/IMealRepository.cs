@@ -11,5 +11,7 @@ namespace TheTableApi.Interfaces
   {
     Task<Meal> AddNewMeal(Meal newMainCourse);
     Task<List<Meal>> GetAllMeals();
+
+    Task<Meal> GetMealById(int id);
   }
 }

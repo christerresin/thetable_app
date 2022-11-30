@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using TheTableApi.Controllers;
 using TheTableApi.Dtos.Meal;
 using TheTableApi.Interfaces;
@@ -45,5 +46,30 @@ namespace TheTableApi.Services.MainCourseService
       return serviceResponse;
     }
 
+    public async Task<ServiceResponse<GetMealDto>> getMainCourseById(int id)
+    {
+      var serviceResponse = new ServiceResponse<GetMealDto>();
+
+      try
+      {
+        Meal meal = await mealRepository.GetMealById(id);
+        serviceResponse.Data = mapper.Map<GetMealDto>(meal);
+
+        if (meal == null)
+        {
+          serviceResponse.Success = false;
+          serviceResponse.Message = "No matching meal with id: " + id;
+          return serviceResponse;
+        }
+
+      }
+      catch (Exception ex)
+      {
+        serviceResponse.Success = false;
+        serviceResponse.Message = ex.Message;
+      }
+      return serviceResponse;
+
+    }
   }
 }

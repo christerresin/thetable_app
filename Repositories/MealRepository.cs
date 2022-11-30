@@ -35,5 +35,12 @@ namespace TheTableApi.Repositories
     {
       return await context.Meals.FirstAsync(m => m.Id == id);
     }
+
+    public async Task<Meal> UpdateMeal(Meal updatedMeal)
+    {
+      context.Update(updatedMeal);
+      await context.SaveChangesAsync();
+      return updatedMeal;
+    }
   }
 }

@@ -18,6 +18,7 @@ namespace TheTableApi
       CreateMap<AddAppetizerDto, GetAppetizerDto>();
       CreateMap<Meal, GetMealDto>();
       CreateMap<AddMealDto, Meal>();
+      CreateMap<UpdateMealDto, Meal>();
     }
   }
 }

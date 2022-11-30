@@ -46,5 +46,11 @@ namespace TheTableApi.Controllers
       }
       return Ok(serviceResponse);
     }
+
+    [HttpPut]
+    public async Task<ActionResult<ServiceResponse<GetMealDto>>> UpdateMainCourse(UpdateMealDto updatedMainCourse)
+    {
+      return Ok(await mainCourseService.UpdateMainCourse(updatedMainCourse));
+    }
   }
 }

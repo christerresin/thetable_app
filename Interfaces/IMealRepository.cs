@@ -13,5 +13,7 @@ namespace TheTableApi.Interfaces
     Task<List<Meal>> GetAllMeals();
 
     Task<Meal> GetMealById(int id);
+
+    Task<Meal> UpdateMeal(Meal updatedMeal);
   }
 }

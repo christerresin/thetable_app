@@ -55,13 +55,6 @@ namespace TheTableApi.Services.MainCourseService
         Meal meal = await mealRepository.GetMealById(id);
         serviceResponse.Data = mapper.Map<GetMealDto>(meal);
 
-        if (meal == null)
-        {
-          serviceResponse.Success = false;
-          serviceResponse.Message = "No matching meal with id: " + id;
-          return serviceResponse;
-        }
-
       }
       catch (Exception ex)
       {
@@ -70,6 +63,34 @@ namespace TheTableApi.Services.MainCourseService
       }
       return serviceResponse;
 
+    }
+
+    public async Task<ServiceResponse<GetMealDto>> UpdateMainCourse(UpdateMealDto updatedMainCourse)
+    {
+      var serviceResponse = new ServiceResponse<GetMealDto>();
+
+      try
+      {
+        Meal meal = await mealRepository.GetMealById(updatedMainCourse.Id);
+
+        meal.Title = updatedMainCourse.Title;
+        meal.Description = updatedMainCourse.Description;
+        meal.ImageUrl = updatedMainCourse.ImageUrl;
+        meal.VideoUrl = updatedMainCourse.VideoUrl;
+        meal.LastEdited = DateTime.Now;
+
+        await mealRepository.UpdateMeal(meal);
+
+        serviceResponse.Data = mapper.Map<GetMealDto>(meal);
+
+      }
+      catch (Exception ex)
+      {
+        serviceResponse.Message = ex.Message;
+        serviceResponse.Success = false;
+      }
+
+      return serviceResponse;
     }
   }
 }

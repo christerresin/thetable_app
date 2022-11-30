@@ -9,5 +9,7 @@ namespace TheTableApi.Controllers
     Task<ServiceResponse<GetMealDto>> AddNewMainCourse(AddMealDto newMainCourse);
     Task<ServiceResponse<List<Meal>>> GetAllMainCourses();
     Task<ServiceResponse<GetMealDto>> getMainCourseById(int id);
+
+    Task<ServiceResponse<GetMealDto>> UpdateMainCourse(UpdateMealDto updatedMainCourse);
   }
 }

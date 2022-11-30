@@ -1,9 +1,11 @@
+using TheTableApi.Dtos.Meal;
 using TheTableApi.Models;
 
 namespace TheTableApi.Controllers
 {
   public interface IMainCourseService
   {
-    public Task<ServiceResponse<List<Meal>>> GetAllMainCourses();
+    Task<ServiceResponse<GetMealDto>> AddNewMainCourse(AddMealDto newMainCourse);
+    Task<ServiceResponse<List<Meal>>> GetAllMainCourses();
   }
 }

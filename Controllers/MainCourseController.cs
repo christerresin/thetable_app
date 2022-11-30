@@ -23,5 +23,16 @@ namespace TheTableApi.Controllers
     {
       return Ok(await mainCourseService.GetAllMainCourses());
     }
+
+    [HttpPost]
+    public async Task<ActionResult<ServiceResponse<GetMealDto>>> AddNewMainCourse(AddMealDto newMainCourse)
+    {
+      var serviceResponse = await mainCourseService.AddNewMainCourse(newMainCourse);
+      if (serviceResponse.Data == null)
+      {
+        return NotFound(serviceResponse);
+      }
+      return Ok(serviceResponse);
+    }
   }
 }

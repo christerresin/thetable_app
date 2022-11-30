@@ -2,12 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TheTableApi.Dtos.Meal;
 using TheTableApi.Models;
 
 namespace TheTableApi.Interfaces
 {
   public interface IMealRepository
   {
-    public Task<List<Meal>> GetAllMeals();
+    Task<Meal> AddNewMeal(Meal newMainCourse);
+    Task<List<Meal>> GetAllMeals();
   }
 }

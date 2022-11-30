@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using TheTableApi.Data;
+using TheTableApi.Dtos.Meal;
 using TheTableApi.Interfaces;
 using TheTableApi.Models;
 
@@ -17,6 +18,14 @@ namespace TheTableApi.Repositories
     {
       this.context = context;
     }
+
+    public async Task<Meal> AddNewMeal(Meal newMainCourse)
+    {
+      context.Meals.Add(newMainCourse);
+      await context.SaveChangesAsync();
+      return newMainCourse;
+    }
+
     public async Task<List<Meal>> GetAllMeals()
     {
       return await context.Meals.ToListAsync();

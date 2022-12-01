@@ -19,7 +19,7 @@ namespace TheTableApi.Controllers
       this.mainCourseService = mainCourseService;
     }
     [HttpGet]
-    public async Task<ActionResult<ServiceResponse<List<Meal>>>> GetAllMainCourses()
+    public async Task<ActionResult<ServiceResponse<List<GetMealDto>>>> GetAllMainCourses()
     {
       return Ok(await mainCourseService.GetAllMainCourses());
     }

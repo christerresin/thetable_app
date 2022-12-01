@@ -24,11 +24,11 @@ namespace TheTableApi.Controllers
       return Ok(await mainCourseService.GetAllMainCourses());
     }
 
-    [HttpGet("/{id}")]
+    [HttpGet("{id}")]
     public async Task<ActionResult<ServiceResponse<GetMealDto>>> GetMainCourseById(int id)
     {
 
-      var serviceResponse = await mainCourseService.getMainCourseById(id);
+      var serviceResponse = await mainCourseService.GetMainCourseById(id);
       if (serviceResponse.Data == null)
       {
         return NotFound(serviceResponse);
@@ -51,6 +51,18 @@ namespace TheTableApi.Controllers
     public async Task<ActionResult<ServiceResponse<GetMealDto>>> UpdateMainCourse(UpdateMealDto updatedMainCourse)
     {
       return Ok(await mainCourseService.UpdateMainCourse(updatedMainCourse));
+    }
+
+    [HttpDelete("{id}")]
+    public async Task<ActionResult<ServiceResponse<GetMealDto>>> DeleteMainCourse(int id)
+    {
+      var serviceResponse = await mainCourseService.DeleteMainCourse(id);
+      if (serviceResponse.Data == null)
+      {
+        return NotFound(serviceResponse);
+      }
+
+      return Ok(serviceResponse);
     }
   }
 }

@@ -15,6 +15,7 @@ namespace TheTableApi.Services.MainCourseService
   {
     private readonly IMapper mapper;
     private readonly IMealRepository mealRepository;
+    private MealType mealType = MealType.MainCourse;
 
     public MainCourseService(IMapper mapper, IMealRepository mealRepository)
     {
@@ -26,6 +27,7 @@ namespace TheTableApi.Services.MainCourseService
     {
       var serviceResponse = new ServiceResponse<GetMealDto>();
       Meal mainCourse = mapper.Map<Meal>(newMainCourse);
+      mainCourse.Type = mealType;
       await mealRepository.AddNewMeal(mainCourse);
       if (mainCourse.Id == 0)
       {
@@ -38,15 +40,41 @@ namespace TheTableApi.Services.MainCourseService
       return serviceResponse;
     }
 
+    public async Task<ServiceResponse<GetMealDto>> DeleteMainCourse(int id)
+    {
+      var serviceResponse = new ServiceResponse<GetMealDto>();
+      try
+      {
+        // one less DB call, then first finding Meal in DB
+        // var mealToDelete = new Meal() { Id = id };
+
+        Meal mealToDelete = await mealRepository.GetMealById(id);
+
+        await mealRepository.DeleteMeal(mealToDelete);
+        serviceResponse.Data = mapper.Map<GetMealDto>(mealToDelete);
+
+
+      }
+      catch (Exception ex)
+      {
+        serviceResponse.Message = ex.Message;
+        serviceResponse.Success = false;
+      }
+
+      return serviceResponse;
+
+    }
+
+    // REFACTOR TO DTO
     public async Task<ServiceResponse<List<Meal>>> GetAllMainCourses()
     {
       var serviceResponse = new ServiceResponse<List<Meal>>();
-      var dbMainCourses = await mealRepository.GetAllMeals(MealType.MainCourse);
+      var dbMainCourses = await mealRepository.GetAllMeals(mealType);
       serviceResponse.Data = dbMainCourses;
       return serviceResponse;
     }
 
-    public async Task<ServiceResponse<GetMealDto>> getMainCourseById(int id)
+    public async Task<ServiceResponse<GetMealDto>> GetMainCourseById(int id)
     {
       var serviceResponse = new ServiceResponse<GetMealDto>();
 

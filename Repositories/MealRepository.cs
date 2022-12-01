@@ -26,6 +26,13 @@ namespace TheTableApi.Repositories
       return newMainCourse;
     }
 
+    public async Task<Meal> DeleteMeal(Meal deleteMeal)
+    {
+      context.Remove(deleteMeal);
+      await context.SaveChangesAsync();
+      return deleteMeal;
+    }
+
     public async Task<List<Meal>> GetAllMeals(MealType mealType)
     {
       return await context.Meals.Where(meal => meal.Type == mealType).ToListAsync();

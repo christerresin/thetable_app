@@ -32,8 +32,6 @@ namespace TheTableApi.Services.AppetizerService
     {
       var serviceResponse = new ServiceResponse<GetMealDto>();
       Meal appetizer = mapper.Map<Meal>(newAppetizer);
-      // context.Appetizers.Add(appetizer);
-      // await context.SaveChangesAsync();
       await mealRepository.AddNewMeal(appetizer);
 
       serviceResponse.Data = mapper.Map<GetMealDto>(appetizer);
@@ -44,7 +42,6 @@ namespace TheTableApi.Services.AppetizerService
     {
       var serviceResponse = new ServiceResponse<List<GetMealDto>>();
       var dbAppetizers = await mealRepository.GetAllMeals(mealType);
-      // var dbAppetizers = await context.Appetizers.ToListAsync();
       serviceResponse.Data = dbAppetizers.Select(a => mapper.Map<GetMealDto>(a)).ToList();
       return serviceResponse;
     }
@@ -52,7 +49,7 @@ namespace TheTableApi.Services.AppetizerService
     public async Task<ServiceResponse<GetMealDto>> GetAppetizerById(int id)
     {
       var serviceResponse = new ServiceResponse<GetMealDto>();
-      var appetizer = await context.Appetizers.FirstOrDefaultAsync(appetizer => appetizer.Id == id);
+      Meal appetizer = await mealRepository.GetMealById(id);
       serviceResponse.Data = mapper.Map<GetMealDto>(appetizer);
       return serviceResponse;
     }

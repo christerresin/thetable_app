@@ -88,11 +88,13 @@ namespace TheTableApi.Services.AppetizerService
 
       try
       {
-        Appetizer appetizer = await context.Appetizers.FirstAsync(a => a.Id == id);
-        context.Appetizers.Remove(appetizer);
-        await context.SaveChangesAsync();
+        Meal appetizerToDelete = new Meal() { Id = id };
+        await mealRepository.DeleteMeal(appetizerToDelete);
+        // Appetizer appetizer = await context.Appetizers.FirstAsync(a => a.Id == id);
+        // context.Appetizers.Remove(appetizer);
+        // await context.SaveChangesAsync();
 
-        serviceResponse.Data = mapper.Map<GetMealDto>(appetizer);
+        serviceResponse.Data = mapper.Map<GetMealDto>(appetizerToDelete);
 
       }
       catch (Exception ex)

@@ -1,8 +1,10 @@
 using Microsoft.EntityFrameworkCore;
+using TheTableApi.Controllers;
 using TheTableApi.Data;
 using TheTableApi.Interfaces;
 using TheTableApi.Repositories;
 using TheTableApi.Services.AppetizerService;
+using TheTableApi.Services.MainCourseService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +17,8 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
 builder.Services.AddScoped<IAppetizerService, AppetizerService>();
 builder.Services.AddScoped<IAppetizerRepository, AppetizerRepository>();
+builder.Services.AddScoped<IMainCourseService, MainCourseService>();
+builder.Services.AddScoped<IMealRepository, MealRepository>();
 
 var app = builder.Build();
 

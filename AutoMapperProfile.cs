@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using TheTableApi.Dtos.Appetizer;
+using TheTableApi.Dtos.Meal;
 using TheTableApi.Models;
 
 namespace TheTableApi
@@ -15,6 +16,9 @@ namespace TheTableApi
       CreateMap<Appetizer, GetAppetizerDto>();
       CreateMap<AddAppetizerDto, Appetizer>();
       CreateMap<AddAppetizerDto, GetAppetizerDto>();
+      CreateMap<Meal, GetMealDto>();
+      CreateMap<AddMealDto, Meal>();
+      CreateMap<UpdateMealDto, Meal>();
     }
   }
 }

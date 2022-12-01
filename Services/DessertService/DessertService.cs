@@ -21,6 +21,15 @@ namespace TheTableApi.Services.DessertService
       this.mapper = mapper;
     }
 
+    public async Task<ServiceResponse<GetMealDto>> AddNewDessert(AddMealDto newDessert)
+    {
+      var serviceResponse = new ServiceResponse<GetMealDto>();
+      Meal dessert = mapper.Map<Meal>(newDessert);
+      await mealRepository.AddNewMeal(dessert);
+      serviceResponse.Data = mapper.Map<GetMealDto>(dessert);
+      return serviceResponse;
+    }
+
     public Task<ServiceResponse<GetMealDto>> DeleteDessert(int id)
     {
       throw new NotImplementedException();
@@ -39,7 +48,7 @@ namespace TheTableApi.Services.DessertService
       throw new NotImplementedException();
     }
 
-    public Task<ServiceResponse<GetMealDto>> UpdateDessert(Meal updatedDessert)
+    public Task<ServiceResponse<GetMealDto>> UpdateDessert(UpdateMealDto updatedDessert)
     {
       throw new NotImplementedException();
     }

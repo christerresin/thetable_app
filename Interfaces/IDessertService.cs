@@ -11,7 +11,8 @@ namespace TheTableApi.Interfaces
   {
     Task<ServiceResponse<List<GetMealDto>>> GetAllDesserts();
     Task<ServiceResponse<GetMealDto>> GetDessertById(int id);
-    Task<ServiceResponse<GetMealDto>> UpdateDessert(Meal updatedDessert);
+    Task<ServiceResponse<GetMealDto>> UpdateDessert(UpdateMealDto updatedDessert);
     Task<ServiceResponse<GetMealDto>> DeleteDessert(int id);
+    Task<ServiceResponse<GetMealDto>> AddNewDessert(AddMealDto newDessert);
   }
 }

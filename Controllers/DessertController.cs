@@ -25,5 +25,11 @@ namespace TheTableApi.Controllers
     {
       return Ok(await dessertService.GetAllDesserts());
     }
+
+    [HttpPost]
+    public async Task<ActionResult<ServiceResponse<GetMealDto>>> AddNewDessert(AddMealDto newDessert)
+    {
+      return Ok(await dessertService.AddNewDessert(newDessert));
+    }
   }
 }

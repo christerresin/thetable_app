@@ -60,7 +60,7 @@ namespace TheTableApi.Services.AppetizerService
 
       try
       {
-        var appetizer = await context.Appetizers.FirstOrDefaultAsync(a => a.Id == updatedAppetizer.Id);
+        Meal appetizer = await mealRepository.UpdateMeal(mapper.Map<Meal>(updatedAppetizer));
 
         appetizer.Title = updatedAppetizer.Title;
         appetizer.Description = updatedAppetizer.Description;
@@ -69,7 +69,6 @@ namespace TheTableApi.Services.AppetizerService
         appetizer.Type = updatedAppetizer.Type;
         appetizer.LastEdited = DateTime.Now;
 
-        context.SaveChangesAsync();
 
         serviceResponse.Data = mapper.Map<GetMealDto>(appetizer);
 

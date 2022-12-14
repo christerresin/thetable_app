@@ -26,6 +26,19 @@ namespace TheTableApi.Controllers
       return Ok(await dessertService.GetAllDesserts());
     }
 
+    [HttpGet("{id}")]
+    public async Task<ActionResult<ServiceResponse<GetMealDto>>> GetDessertById(int id)
+    {
+      var serviceResponse = await dessertService.GetDessertById(id);
+
+      if (serviceResponse.Data == null)
+      {
+        return NotFound(serviceResponse);
+      }
+
+      return Ok(serviceResponse);
+    }
+
     [HttpPost]
     public async Task<ActionResult<ServiceResponse<GetMealDto>>> AddNewDessert(AddMealDto newDessert)
     {

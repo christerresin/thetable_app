@@ -60,6 +60,7 @@ namespace TheTableApi.Services.AppetizerService
 
       try
       {
+        // REFACTOR THIS LOGIC
         Meal appetizer = await mealRepository.UpdateMeal(mapper.Map<Meal>(updatedAppetizer));
 
         appetizer.Title = updatedAppetizer.Title;

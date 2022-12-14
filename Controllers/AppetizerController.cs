@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using TheTableApi.Dtos.Appetizer;
+using TheTableApi.Dtos.Meal;
 using TheTableApi.Models;
 using TheTableApi.Services.AppetizerService;
 
@@ -21,26 +22,26 @@ namespace TheTableApi.Controllers
     }
 
     [HttpGet]
-    public async Task<ActionResult<ServiceResponse<List<GetAppetizerDto>>>> GetAllAppetizers()
+    public async Task<ActionResult<ServiceResponse<List<GetMealDto>>>> GetAllAppetizers()
     {
 
       return Ok(await appetizerService.GetAllAppetizers());
     }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult<ServiceResponse<GetAppetizerDto>>> GetAppetizerById(int id)
+    public async Task<ActionResult<ServiceResponse<GetMealDto>>> GetAppetizerById(int id)
     {
       return Ok(await appetizerService.GetAppetizerById(id));
     }
 
     [HttpPost]
-    public async Task<ActionResult<ServiceResponse<GetAppetizerDto>>> AddNewAppetizer(AddAppetizerDto newAppetizer)
+    public async Task<ActionResult<ServiceResponse<GetMealDto>>> AddNewAppetizer(AddMealDto newAppetizer)
     {
       return Ok(await appetizerService.AddNewAppetizer(newAppetizer));
     }
 
     [HttpPut]
-    public async Task<ActionResult<ServiceResponse<GetAppetizerDto>>> UpdateAppetizer(UpdateAppetizerDto updatedAppetizer)
+    public async Task<ActionResult<ServiceResponse<GetMealDto>>> UpdateAppetizer(UpdateMealDto updatedAppetizer)
     {
       var serviceResponse = await appetizerService.UpdateAppetizer(updatedAppetizer);
       if (serviceResponse.Data == null)
@@ -51,7 +52,7 @@ namespace TheTableApi.Controllers
     }
 
     [HttpDelete]
-    public async Task<ActionResult<ServiceResponse<GetAppetizerDto>>> DeleteAppetizer(int id)
+    public async Task<ActionResult<ServiceResponse<GetMealDto>>> DeleteAppetizer(int id)
     {
       var serviceResponse = await appetizerService.DeleteAppetizer(id);
       if (serviceResponse.Data == null)

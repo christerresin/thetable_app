@@ -66,11 +66,11 @@ namespace TheTableApi.Services.MainCourseService
     }
 
     // REFACTOR TO DTO
-    public async Task<ServiceResponse<List<Meal>>> GetAllMainCourses()
+    public async Task<ServiceResponse<List<GetMealDto>>> GetAllMainCourses()
     {
-      var serviceResponse = new ServiceResponse<List<Meal>>();
+      var serviceResponse = new ServiceResponse<List<GetMealDto>>();
       var dbMainCourses = await mealRepository.GetAllMeals(mealType);
-      serviceResponse.Data = dbMainCourses;
+      serviceResponse.Data = dbMainCourses.Select(meal => mapper.Map<GetMealDto>(meal)).ToList();
       return serviceResponse;
     }
 

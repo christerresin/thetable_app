@@ -4,6 +4,7 @@ using TheTableApi.Data;
 using TheTableApi.Interfaces;
 using TheTableApi.Repositories;
 using TheTableApi.Services.AppetizerService;
+using TheTableApi.Services.DessertService;
 using TheTableApi.Services.MainCourseService;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -19,6 +20,7 @@ builder.Services.AddScoped<IAppetizerService, AppetizerService>();
 builder.Services.AddScoped<IAppetizerRepository, AppetizerRepository>();
 builder.Services.AddScoped<IMainCourseService, MainCourseService>();
 builder.Services.AddScoped<IMealRepository, MealRepository>();
+builder.Services.AddScoped<IDessertService, DessertService>();
 
 var app = builder.Build();
 

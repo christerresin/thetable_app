@@ -6,6 +6,7 @@ using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using TheTableApi.Data;
 using TheTableApi.Dtos.Appetizer;
+using TheTableApi.Dtos.Meal;
 using TheTableApi.Interfaces;
 using TheTableApi.Models;
 using TheTableApi.Repositories;
@@ -17,48 +18,49 @@ namespace TheTableApi.Services.AppetizerService
     private readonly IMapper mapper;
     private readonly DataContext context;
     private readonly IAppetizerRepository appetizerRepository;
+    private readonly IMealRepository mealRepository;
+    private MealType mealType = MealType.Appetizer;
 
-    public AppetizerService(IMapper mapper, DataContext context, IAppetizerRepository appetizerRepository)
+    public AppetizerService(IMapper mapper, DataContext context, IAppetizerRepository appetizerRepository, IMealRepository mealRepository)
     {
       this.mapper = mapper;
       this.context = context;
       this.appetizerRepository = appetizerRepository;
+      this.mealRepository = mealRepository;
     }
-    public async Task<ServiceResponse<GetAppetizerDto>> AddNewAppetizer(AddAppetizerDto newAppetizer)
+    public async Task<ServiceResponse<GetMealDto>> AddNewAppetizer(AddMealDto newAppetizer)
     {
-      var serviceResponse = new ServiceResponse<GetAppetizerDto>();
-      Appetizer appetizer = mapper.Map<Appetizer>(newAppetizer);
-      // context.Appetizers.Add(appetizer);
-      // await context.SaveChangesAsync();
-      await appetizerRepository.AddNewAppetizer(appetizer);
+      var serviceResponse = new ServiceResponse<GetMealDto>();
+      Meal appetizer = mapper.Map<Meal>(newAppetizer);
+      await mealRepository.AddNewMeal(appetizer);
 
-      serviceResponse.Data = mapper.Map<GetAppetizerDto>(appetizer);
+      serviceResponse.Data = mapper.Map<GetMealDto>(appetizer);
       return serviceResponse;
     }
 
-    public async Task<ServiceResponse<List<GetAppetizerDto>>> GetAllAppetizers()
+    public async Task<ServiceResponse<List<GetMealDto>>> GetAllAppetizers()
     {
-      var serviceResponse = new ServiceResponse<List<GetAppetizerDto>>();
-      var dbAppetizers = await context.Appetizers.ToListAsync();
-      serviceResponse.Data = dbAppetizers.Select(a => mapper.Map<GetAppetizerDto>(a)).ToList();
+      var serviceResponse = new ServiceResponse<List<GetMealDto>>();
+      var dbAppetizers = await mealRepository.GetAllMeals(mealType);
+      serviceResponse.Data = dbAppetizers.Select(a => mapper.Map<GetMealDto>(a)).ToList();
       return serviceResponse;
     }
 
-    public async Task<ServiceResponse<GetAppetizerDto>> GetAppetizerById(int id)
+    public async Task<ServiceResponse<GetMealDto>> GetAppetizerById(int id)
     {
-      var serviceResponse = new ServiceResponse<GetAppetizerDto>();
-      var appetizer = await context.Appetizers.FirstOrDefaultAsync(appetizer => appetizer.Id == id);
-      serviceResponse.Data = mapper.Map<GetAppetizerDto>(appetizer);
+      var serviceResponse = new ServiceResponse<GetMealDto>();
+      Meal appetizer = await mealRepository.GetMealById(id);
+      serviceResponse.Data = mapper.Map<GetMealDto>(appetizer);
       return serviceResponse;
     }
 
-    public async Task<ServiceResponse<GetAppetizerDto>> UpdateAppetizer(UpdateAppetizerDto updatedAppetizer)
+    public async Task<ServiceResponse<GetMealDto>> UpdateAppetizer(UpdateMealDto updatedAppetizer)
     {
-      var serviceResponse = new ServiceResponse<GetAppetizerDto>();
+      var serviceResponse = new ServiceResponse<GetMealDto>();
 
       try
       {
-        var appetizer = await context.Appetizers.FirstOrDefaultAsync(a => a.Id == updatedAppetizer.Id);
+        Meal appetizer = await mealRepository.UpdateMeal(mapper.Map<Meal>(updatedAppetizer));
 
         appetizer.Title = updatedAppetizer.Title;
         appetizer.Description = updatedAppetizer.Description;
@@ -67,9 +69,8 @@ namespace TheTableApi.Services.AppetizerService
         appetizer.Type = updatedAppetizer.Type;
         appetizer.LastEdited = DateTime.Now;
 
-        context.SaveChangesAsync();
 
-        serviceResponse.Data = mapper.Map<GetAppetizerDto>(appetizer);
+        serviceResponse.Data = mapper.Map<GetMealDto>(appetizer);
 
       }
       catch (Exception ex)
@@ -81,17 +82,19 @@ namespace TheTableApi.Services.AppetizerService
 
     }
 
-    public async Task<ServiceResponse<GetAppetizerDto>> DeleteAppetizer(int id)
+    public async Task<ServiceResponse<GetMealDto>> DeleteAppetizer(int id)
     {
-      var serviceResponse = new ServiceResponse<GetAppetizerDto>();
+      var serviceResponse = new ServiceResponse<GetMealDto>();
 
       try
       {
-        Appetizer appetizer = await context.Appetizers.FirstAsync(a => a.Id == id);
-        context.Appetizers.Remove(appetizer);
-        await context.SaveChangesAsync();
+        Meal appetizerToDelete = new Meal() { Id = id };
+        await mealRepository.DeleteMeal(appetizerToDelete);
+        // Appetizer appetizer = await context.Appetizers.FirstAsync(a => a.Id == id);
+        // context.Appetizers.Remove(appetizer);
+        // await context.SaveChangesAsync();
 
-        serviceResponse.Data = mapper.Map<GetAppetizerDto>(appetizer);
+        serviceResponse.Data = mapper.Map<GetMealDto>(appetizerToDelete);
 
       }
       catch (Exception ex)

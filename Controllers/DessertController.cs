@@ -26,10 +26,48 @@ namespace TheTableApi.Controllers
       return Ok(await dessertService.GetAllDesserts());
     }
 
+    [HttpGet("{id}")]
+    public async Task<ActionResult<ServiceResponse<GetMealDto>>> GetDessertById(int id)
+    {
+      var serviceResponse = await dessertService.GetDessertById(id);
+
+      if (serviceResponse.Data == null)
+      {
+        return NotFound(serviceResponse);
+      }
+
+      return Ok(serviceResponse);
+    }
+
     [HttpPost]
     public async Task<ActionResult<ServiceResponse<GetMealDto>>> AddNewDessert(AddMealDto newDessert)
     {
       return Ok(await dessertService.AddNewDessert(newDessert));
+    }
+
+    [HttpPut]
+    public async Task<ActionResult<ServiceResponse<GetMealDto>>> UpdateDessert(UpdateMealDto updatedDessert)
+    {
+      var serviceResponse = await dessertService.UpdateDessert(updatedDessert);
+
+      if (serviceResponse.Data == null)
+      {
+        return NotFound(serviceResponse);
+      }
+
+      return Ok(serviceResponse);
+    }
+
+    [HttpDelete]
+    public async Task<ActionResult<ServiceResponse<GetMealDto>>> DeleteDessert(int id)
+    {
+      var serviceResponse = await dessertService.DeleteDessert(id);
+
+      if (serviceResponse.Data == null)
+      {
+        return NotFound(serviceResponse);
+      }
+      return Ok(serviceResponse);
     }
   }
 }

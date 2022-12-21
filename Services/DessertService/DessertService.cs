@@ -30,9 +30,24 @@ namespace TheTableApi.Services.DessertService
       return serviceResponse;
     }
 
-    public Task<ServiceResponse<GetMealDto>> DeleteDessert(int id)
+    public async Task<ServiceResponse<GetMealDto>> DeleteDessert(int id)
     {
-      throw new NotImplementedException();
+      var serviceResponse = new ServiceResponse<GetMealDto>();
+
+      try
+      {
+        var dessert = await mealRepository.GetMealById(id);
+        Meal deletedDessert = await mealRepository.DeleteMeal(dessert);
+        serviceResponse.Data = mapper.Map<GetMealDto>(deletedDessert);
+      }
+      catch (Exception ex)
+      {
+        serviceResponse.Success = false;
+        serviceResponse.Message = ex.Message;
+      }
+
+      return serviceResponse;
+
     }
 
     public async Task<ServiceResponse<List<GetMealDto>>> GetAllDesserts()
@@ -43,14 +58,51 @@ namespace TheTableApi.Services.DessertService
       return serviceResponse;
     }
 
-    public Task<ServiceResponse<GetMealDto>> GetDessertById(int id)
+    public async Task<ServiceResponse<GetMealDto>> GetDessertById(int id)
     {
-      throw new NotImplementedException();
+      var serviceResponse = new ServiceResponse<GetMealDto>();
+
+      try
+      {
+        Meal foundDessert = await mealRepository.GetMealById(id);
+        serviceResponse.Data = mapper.Map<GetMealDto>(foundDessert);
+      }
+      catch (Exception ex)
+      {
+        serviceResponse.Success = false;
+        serviceResponse.Message = ex.Message;
+      }
+
+      return serviceResponse;
     }
 
-    public Task<ServiceResponse<GetMealDto>> UpdateDessert(UpdateMealDto updatedDessert)
+    public async Task<ServiceResponse<GetMealDto>> UpdateDessert(UpdateMealDto updatedDessert)
     {
-      throw new NotImplementedException();
+      var serviceResponse = new ServiceResponse<GetMealDto>();
+
+      try
+      {
+        Meal foundDessert = await mealRepository.GetMealById(updatedDessert.Id);
+
+        foundDessert.Title = updatedDessert.Title;
+        foundDessert.Description = updatedDessert.Description;
+        foundDessert.ImageUrl = updatedDessert.ImageUrl;
+        foundDessert.VideoUrl = updatedDessert.VideoUrl;
+        foundDessert.Type = updatedDessert.Type;
+        foundDessert.LastEdited = DateTime.Now;
+
+        await mealRepository.UpdateMeal(foundDessert);
+
+        serviceResponse.Data = mapper.Map<GetMealDto>(foundDessert);
+
+      }
+      catch (Exception ex)
+      {
+        serviceResponse.Success = false;
+        serviceResponse.Message = ex.Message;
+      }
+
+      return serviceResponse;
     }
   }
 }

@@ -30,9 +30,24 @@ namespace TheTableApi.Services.DessertService
       return serviceResponse;
     }
 
-    public Task<ServiceResponse<GetMealDto>> DeleteDessert(int id)
+    public async Task<ServiceResponse<GetMealDto>> DeleteDessert(int id)
     {
-      throw new NotImplementedException();
+      var serviceResponse = new ServiceResponse<GetMealDto>();
+
+      try
+      {
+        var dessert = await mealRepository.GetMealById(id);
+        Meal deletedDessert = await mealRepository.DeleteMeal(dessert);
+        serviceResponse.Data = mapper.Map<GetMealDto>(deletedDessert);
+      }
+      catch (Exception ex)
+      {
+        serviceResponse.Success = false;
+        serviceResponse.Message = ex.Message;
+      }
+
+      return serviceResponse;
+
     }
 
     public async Task<ServiceResponse<List<GetMealDto>>> GetAllDesserts()

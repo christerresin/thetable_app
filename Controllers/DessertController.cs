@@ -57,5 +57,17 @@ namespace TheTableApi.Controllers
 
       return Ok(serviceResponse);
     }
+
+    [HttpDelete]
+    public async Task<ActionResult<ServiceResponse<GetMealDto>>> DeleteDessert(int id)
+    {
+      var serviceResponse = await dessertService.DeleteDessert(id);
+
+      if (serviceResponse.Data == null)
+      {
+        return NotFound(serviceResponse);
+      }
+      return Ok(serviceResponse);
+    }
   }
 }
